@@ -54,10 +54,14 @@ function updateTimer(){
 		colon = ':';
 	}
 
+	tm_days = 180
+	tm_hours = 8
+	tm_minutes = 59
+
 	document.getElementById("DSEGClock").innerHTML = tm_hour + colon + tm_min + "<span style=\"font-size:30px;\">"  + tm_sec + "</span>";
 	document.getElementById("DSEGClock-Year").innerHTML = "<span class=\"D7MI\">" + tm_year + "-" + tm_mon + "-" + tm_date + ' ' + "</span><span class=\"D14MI\">" + tm_day  +  "." + "</span>";
 
-	setTimeout("updateTimer()", 500 - date.getMilliseconds()%500 );
+	//setTimeout("updateTimer()", 500 - date.getMilliseconds()%500 );
 
 }
 
@@ -106,8 +110,8 @@ height:72px;
 	position:relative;
 	border:6px solid #000;
 	border-radius:9px;
-	height:123px;
-	width:306px;
+	height:250px;
+	width:750px;
 	background-color:#fb7c00;
 
 	box-shadow: 4px 4px 1px 0px rgba(0,0,0,0.1) inset;
@@ -192,7 +196,7 @@ td{
 
 </head>
 
-<body onload="updateTimer()" >
+<!--<body onload="updateTimer()" >-->
 
 <header>
 </header>
@@ -203,9 +207,13 @@ td{
 <h2>1.Calendar days</h2>
 <div class="center">
 	<div class="Clock-Wrapper">
-		<span class="Clock-Time-Background D7MBI">88:88<span style="font-size:30px;">88</span></span>
-		<span id="DSEGClock" class="Clock-Time-Front D7MBI"></span>
-		<span class="Clock-Year-Background"><span class="D7MI">2088-88-88</span><span class="D14MI"> ~~~</span></span>
+		<!--<span class="Clock-Time-Background D7MBI">88:88<span style="font-size:30px;">88</span></span>-->
+		<span id="DSEGClock" class="Clock-Time-Front D7MBI">
+			180<span style="font-size:30px;">d</span>
+			:08<span style="font-size:30px;">h</span>
+			:59<span style="font-size:30px;">m</span>
+		</span>
+		<!--<span class="Clock-Year-Background"><span class="D7MI">2088-88-88</span><span class="D14MI"> ~~~</span></span>-->
 		<span id="DSEGClock-Year" class="Clock-Year-Front"></span>
 	</div>
 </div>
