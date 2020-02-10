@@ -1,0 +1,305 @@
+﻿/*
+	For all pages.
+	CSS  Level 3 Optimized.
+	2017-04-29 by Keshikan
+*/
+
+
+body {
+	background-color:#fbfbfb;
+	font-size:100%;
+	padding-left:10px;
+	padding-right:10px;
+	padding-bottom:10px;
+	max-width:1280px;
+	line-height:160%;
+	color:#222;
+	font-family:Meiryo, 'Lucida Grande','Hiragino Kaku Gothic ProN', sans-serif;
+}
+
+table {
+	margin: 0px 0px 30px 10px;
+	padding: 0px;
+	border-collapse: collapse;
+}
+
+td {
+	padding: 2px;
+	background-color: #fafaf7;
+	border: 1px solid #555;
+}
+
+th {
+	padding: 5px;
+	text-align: center;
+	vertical-align: top;
+	color: #333;
+	background-color: #eee;
+	border: 1px solid #555;
+}
+
+.bordernone {
+	border:none;
+}
+
+table[class="bordernone"] th, table[class="bordernone"] td {
+	border:none;
+	background-color:#fbfbfb;
+}
+
+.displaySample {
+	font-family:D7MR;
+	position:relative;
+}
+
+
+td.displaySample span:nth-of-type(1) {
+	z-index:100;
+	position:absolute;
+	top:10px;
+	white-space: nowrap;
+
+}
+
+td.displaySample span:nth-of-type(2) {
+	z-index:50;
+	position:absolute;
+	top:10px;
+	color:rgba(0,0,0,0.1);
+	white-space: nowrap;
+}
+
+
+.nomark {
+	list-style-type:none;
+	margin-left:-10px;
+}
+
+A {
+	color:#0a0a5e;
+	text-decoration:underline; 
+}
+
+A:hover {
+	color:#2255bb;
+	background-color:#ffbbbb;
+}
+
+A:visited {
+	color:#2255bb;
+}
+
+header .hright {
+	color:#111188;
+	float:right;
+}
+
+header .hleft {
+	color:#111188;
+	float:left;
+	font-size:120%;
+}
+
+header .langmenu{
+	text-align:right;
+}
+
+header .navi{
+
+}
+
+header .lastmodified{
+	text-align:right;
+	margin-top:10px;
+	color:black;
+	font-size:large;
+}
+
+footer {
+	font-size:small;
+	border-top:1px solid #555;
+	padding-top:10px;
+}
+
+footer .lastmodified{
+	font-style:italic;
+	text-align:right;
+}
+
+footer .validator{
+	font-weight:bold;
+	float:left;
+}
+
+footer .validator A:hover{
+	background-color:#fbfbfb;
+}
+
+form td{
+ 	padding:1px;
+}
+
+.game input[type=text] {
+	padding:5px;
+	text-align: center;
+	border:1px solid #555;
+	font-size:11pt;
+	font-weight:bold;
+	width:135px;
+	height:1.0em;
+	border: 1px solid #fbfbfb;
+}
+
+.game-e input[type=text] {
+	padding:5px;
+	text-align: center;
+	border:1px solid #555;
+	font-size:11pt;
+	font-weight:bold;
+	width:160px;
+	height:1.0em;
+	border: 1px solid #fbfbfb;
+}
+
+input[type=text]:focus{
+	border: 1px solid #aa0000;
+
+}
+/*
+h1 {
+	color:#111188;
+	border-bottom:2px solid #111188;
+	clear:both;
+	padding-bottom:10px;
+}
+*/
+
+h1 {
+	background-color:#333388;
+
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+
+	color:#fff;
+	clear:both;
+	padding:10px;
+}
+
+
+h2 {
+	color:#333388;
+	border-bottom:1px dotted #333388;
+	clear:both;
+	margin-top:40px;
+	padding-bottom:2px;
+}
+
+
+h3 {
+	color:#111;
+	border-left:8px solid #883300;
+	padding-left:5px;
+	margin-top:20px;
+	clear:both;
+}
+
+h4 {
+	color:#111;
+	clear:both;
+}
+
+p {
+	margin-top:10px;
+}
+
+kbd {
+	border: 1px solid #999;
+
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+
+	box-shadow:1px 1px 0 rgba(0,0,0,0.2);
+	padding:0.05em;
+	margin:0 0.2em;
+}
+
+.download{
+	text-align:center;
+	background-color:#333388;
+	color:#fff;
+	padding:5px;
+	font-size:150%;
+
+	border-radius:7px;
+	-moz-border-radius:7px;
+	-webkit-border-radius:7px;
+
+	font-weight:bold;
+
+	box-shadow:4px 4px 5px #888
+
+}
+.download:hover{
+	text-align:center;
+	background-color:#fff;
+	color:#333388;
+	padding:5px;
+	font-size:150%;
+	border:3px solid #333388;
+
+	border-radius:7px;
+	-moz-border-radius:7px;
+	-webkit-border-radius:7px;
+
+	font-weight:bold;
+}
+
+.btc{
+	text-align:center;
+	background-color:#aa513f;
+	color:#fff;
+	padding:5px;
+	font-size:150%;
+
+	border-radius:7px;
+	-moz-border-radius:7px;
+	-webkit-border-radius:7px;
+
+	font-weight:bold;
+
+	box-shadow:4px 4px 5px #888;
+
+}
+.btc:hover{
+	text-align:center;
+	background-color:#fff;
+	color:#aa513f;
+	padding:5px;
+	font-size:150%;
+	border:3px solid #aa513f;
+
+	border-radius:7px;
+	-moz-border-radius:7px;
+	-webkit-border-radius:7px;
+
+	font-weight:bold;
+}
+
+.center{
+	text-align:center;
+}
+
+img{
+	max-width:100%;
+}
+
+.mathjax {
+	font-size:100%;
+}
+
+
+.footnote{
+	font-size:80%;
+}

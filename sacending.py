@@ -32,9 +32,9 @@ root.after(1000, show_time)
 # Set the end date and time for the countdown
 endTime = datetime.datetime(2017, 9, 19, 9, 0, 0)
 
-#fnt = font.Font(family='DSEG7-Classic', size=60, weight='bold')
-fnt = font.Font(family='DSEG7 Classic')
-print(font.families())
+fnt = font.Font(family='DSEG7 Classic', size=60, weight='bold')
+#fnt = font.Font(family='DSEG7 Classic')
+#print(font.families())
 
 #sys.exit(1)
 txt = StringVar()
