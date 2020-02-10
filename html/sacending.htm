@@ -48,20 +48,34 @@ function updateTimer(){
 	tm_sec = genTimerStrings(tm_sec, 2);
 	tm_day = daylist[tm_day];
 
-	if( tm_msec > 499 ){
+	if( tm_sec & 1 ){
 		colon = ' ';
 	}else{
 		colon = ':';
 	}
 
-	tm_days = 180
-	tm_hours = 8
-	tm_minutes = 59
 
-	document.getElementById("DSEGClock").innerHTML = tm_hour + colon + tm_min + "<span style=\"font-size:30px;\">"  + tm_sec + "</span>";
-	document.getElementById("DSEGClock-Year").innerHTML = "<span class=\"D7MI\">" + tm_year + "-" + tm_mon + "-" + tm_date + ' ' + "</span><span class=\"D14MI\">" + tm_day  +  "." + "</span>";
+	crem_days = "179"
+	crem_hours = "07"
+	crem_minutes = "49"
 
-	//setTimeout("updateTimer()", 500 - date.getMilliseconds()%500 );
+	utcTarget = Date.UTC(2020, 08, 30, 17, 00, 00, 00);
+	//utcTarget = Date.UTC(2020, 01, 11, 18, 00, 00, 00);
+	date = new Date();
+	var utcNow = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+
+	diffMs = utcTarget - utcNow;
+	crem_days = genTimerStrings(Math.floor(diffMs/86400/1000), 3);
+	crem_hours = genTimerStrings(Math.floor(diffMs/3600/1000) % 24, 2);
+	crem_minutes = genTimerStrings(Math.floor(diffMs/60/1000) % 60, 2);
+
+	//document.getElementById("DSEGClock").innerHTML = tm_hour + colon + tm_min + "<span style=\"font-size:30px;\">"  + tm_sec + "</span>";
+	document.getElementById("Caldays").innerHTML =
+	crem_days + "<span style=\"font-size:30px;\">d</span>"+
+	"&nbsp;"+colon+crem_hours+"<span style=\"font-size:30px;\">h</span>"+
+	"&nbsp;"+colon+crem_minutes+"<span style=\"font-size:30px;\">m</span>";
+
+	setTimeout("updateTimer()", 500 - date.getMilliseconds()%500 );
 
 }
 
@@ -110,10 +124,9 @@ height:72px;
 	position:relative;
 	border:6px solid #000;
 	border-radius:9px;
-	height:250px;
-	width:750px;
+	height:120px;
+	width:560px;
 	background-color:#fb7c00;
-
 	box-shadow: 4px 4px 1px 0px rgba(0,0,0,0.1) inset;
 }
 
@@ -121,8 +134,8 @@ height:72px;
 .Clock-Time-Background{
 	z-index:50;
 	position:absolute;
-	top:70px;
-	left:6px;
+	top:50px;
+	left:12px;
 	color:rgba(0,0,0,0.15);
 	font-size:70px;
 }
@@ -130,8 +143,8 @@ height:72px;
 .Clock-Time-Front{
 	z-index:100;
 	position:absolute;
-	top:70px;
-	left:6px;
+	top:50px;
+	left:12px;
 	font-size:70px;
 }
 
@@ -196,7 +209,7 @@ td{
 
 </head>
 
-<!--<body onload="updateTimer()" >-->
+<body onload="updateTimer()"
 
 <header>
 </header>
@@ -204,11 +217,16 @@ td{
 <h1>Sacending</h1>
 
 
-<h2>1.Calendar days</h2>
+<h2>Calendar days</h2>
 <div class="center">
 	<div class="Clock-Wrapper">
 		<!--<span class="Clock-Time-Background D7MBI">88:88<span style="font-size:30px;">88</span></span>-->
-		<span id="DSEGClock" class="Clock-Time-Front D7MBI">
+		<span class="Clock-Time-Background D7MBI">
+				888<span style="font-size:30px;">d</span>
+				:88<span style="font-size:30px;">h</span>
+				:88<span style="font-size:30px;">m</span>
+		</span>
+		<span id="Caldays" class="Clock-Time-Front D7MBI">
 			180<span style="font-size:30px;">d</span>
 			:08<span style="font-size:30px;">h</span>
 			:59<span style="font-size:30px;">m</span>
