@@ -26,6 +26,66 @@ function genTimerStrings(tm, num){
 	return ret;
 }
 
+function computeWorkDays(d1, d2) {
+
+	function isSameDay(d1,d2)
+	{
+		return d1.getFullYear() == d2.getFullYear() &&
+				d1.getMonth() == d2.getMonth() &&
+				d1.getDate() == d2.getDate();
+	}
+
+	function isWeekend(d)
+	{
+		var SATURDAY = 6;
+		var SUNDAY = 0;
+		return d.getDay() == SATURDAY || d.getDay() == SUNDAY;
+	}
+
+	var holidays=["2020-04-13","2020-06-02",["2020-08-10", "2020-08-22"]];
+
+	/* expand holidays */
+	h = Array()
+	holidays.forEach(function addInterval(item, index) {
+		if (Array.isArray(item))
+		{
+			d_s = new Date(item[0]);
+			d_e = new Date(item[1]);
+			d = new Date(d_s);
+			do {
+				h.push(d);
+				d = new Date(d);
+				d.setDate(d.getDate()+1);
+			} while (d < d_e);
+		} else {
+			d = new Date(item);
+			h.push(d);
+		}
+	});
+
+	/* Assume array 'h' is sorted */
+	var d = new Date(d1);
+
+	var days = 0;
+	/* Naive approach -- shift the days and compare */
+	while (d < d2) {
+		//console.log(d);
+		//console.log(h[0]);
+		//console.log(""+d-h[0]);
+		if (h.length >0 && isSameDay(d,h[0])) {
+			//console.log("skipping "+h[0]);
+			h.shift();
+		} else if (isWeekend(d)) {
+			/* skip weekend days */
+		} else {
+			days++;
+		}
+		d.setDate(d.getDate()+1);
+	}
+	//console.log(days);
+	return days;
+}
+
 function updateTimer(){
 	var ret;
 	var date = new Date();
@@ -74,6 +134,21 @@ function updateTimer(){
 	crem_days + "<span style=\"font-size:30px;\">d</span>"+
 	"&nbsp;"+colon+crem_hours+"<span style=\"font-size:30px;\">h</span>"+
 	"&nbsp;"+colon+crem_minutes+"<span style=\"font-size:30px;\">m</span>";
+
+
+	workdays = computeWorkDays(utcNow, utcTarget);
+	wrem_weeks = genTimerStrings(Math.floor(workdays/5),2);
+	wrem_days = genTimerStrings(workdays % 5,1);
+
+	wrem_hours = "08"
+	wrem_minutes = "00";
+
+	document.getElementById("Workdays").innerHTML =
+	wrem_weeks + "<span style=\"font-size:30px;\">w</span>"+
+	wrem_days + "<span style=\"font-size:30px;\">d</span>"+
+	colon+wrem_hours+"<span style=\"font-size:30px;\">h</span>"+
+	colon+wrem_minutes+"<span style=\"font-size:30px;\">m</span>";
+
 
 	setTimeout("updateTimer()", 500 - date.getMilliseconds()%500 );
 
@@ -209,7 +284,7 @@ td{
 
 </head>
 
-<body onload="updateTimer()"
+<body onload="updateTimer()">
 
 <header>
 </header>
@@ -238,7 +313,17 @@ td{
 
 <h2>Working time</h2>
 <div class="center">
-	Coming soon!
+	<div class="Clock-Wrapper">
+		<!--<span class="Clock-Time-Background D7MBI">88:88<span style="font-size:30px;">88</span></span>-->
+		<span class="Clock-Time-Background D7MBI">
+			88<span style="font-size:30px;">w</span>8<span style="font-size:30px;">d</span>:88<span style="font-size:30px;">h</span>:88<span style="font-size:30px;">m</span>
+		</span>
+		<span id="Workdays" class="Clock-Time-Front D7MBI">
+			88<span style="font-size:30px;">w</span>8<span style="font-size:30px;">d</span>:88<span style="font-size:30px;">h</span>:88<span style="font-size:30px;">m</span>
+		</span>
+		<!--<span class="Clock-Year-Background"><span class="D7MI">2088-88-88</span><span class="D14MI"> ~~~</span></span>-->
+		<span id="DSEGClock-Year" class="Clock-Year-Front"></span>
+	</div>
 </div>
 
 </body>
