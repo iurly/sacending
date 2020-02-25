@@ -26,8 +26,9 @@ function genTimerStrings(tm, num){
 	return ret;
 }
 
-function computeWorkDays(d1, d2) {
+function computeWorkTime(d1, d2) {
 
+	/* Comnpute the number of entire working days from d1 (excluded, so from d1+1) until d2 (included) */
 	function isSameDay(d1,d2)
 	{
 		return d1.getFullYear() == d2.getFullYear() &&
@@ -42,9 +43,11 @@ function computeWorkDays(d1, d2) {
 		return d.getDay() == SATURDAY || d.getDay() == SUNDAY;
 	}
 
-	var holidays=["2020-04-13","2020-05-01","2020-06-02",["2020-08-10", "2020-08-22"]];
+	var holidays=["2020-04-13","2020-05-01","2020-06-02",["2020-08-10", "2020-08-21"]];
 
-	/* expand holidays */
+	const worktimes=[[[08,00],[12,00]],[[13,00],[17,00]]];
+
+	/* expand holidays[] into individual days h[] */
 	h = Array()
 	holidays.forEach(function addInterval(item, index) {
 		if (Array.isArray(item))
@@ -56,7 +59,7 @@ function computeWorkDays(d1, d2) {
 				h.push(d);
 				d = new Date(d);
 				d.setDate(d.getDate()+1);
-			} while (d < d_e);
+			} while (d <= d_e);
 		} else {
 			d = new Date(item);
 			h.push(d);
@@ -65,10 +68,23 @@ function computeWorkDays(d1, d2) {
 
 	/* Assume array 'h' is sorted */
 	var d = new Date(d1);
+	var d2 = new Date(d2)
+
+	d.setHours(0);
+	d.setMinutes(0);
+	d.setSeconds(0);
+	d.setMilliseconds(0);
+	d2.setHours(0);
+	d2.setMinutes(0);
+	d2.setSeconds(0);
+	d2.setMilliseconds(0);
+
 
 	var days = 0;
+	var d1_working = false;
+	var cycles = 0;
 	/* Naive approach -- shift the days and compare */
-	while (d < d2) {
+	while (d <= d2) {
 		//console.log(d);
 		//console.log(h[0]);
 		//console.log(""+d-h[0]);
@@ -78,12 +94,61 @@ function computeWorkDays(d1, d2) {
 		} else if (isWeekend(d)) {
 			/* skip weekend days */
 		} else {
+			if (cycles == 0)
+			{
+				d1_working = true;
+			}
+			/* break at the end */
+			if (d - d2 == 0)
+				break;
 			days++;
 		}
+		cycles++;
+		/* move on to tomorrow */
 		d.setDate(d.getDate()+1);
 	}
 	//console.log(days);
-	return days;
+
+	function diffTime(d, hm)
+	{
+		var h2 = hm[0];
+		var m2 = hm[1];
+
+		var h1 = d.getHours();
+		var m1 = d.getMinutes();
+		var s1 = d.getSeconds()
+
+		return (h1 - h2) * 60 * 60 + (m1 - m2) * 60 + s1;
+	}
+
+	var secs = 0;
+	/* compute remaining working time today */
+	if (d1_working)
+	{
+		worktimes.forEach(function sumTime(item,index) {
+			var time_s = item[0];
+			var time_e = item[1];
+			var d_s = diffTime(new Date(d1),time_s);
+			var d_e = diffTime(new Date(d1),time_e);
+
+			/* now is before end */
+			if (d_e < 0)
+			{
+				/* now is after start */
+				if (d_s > 0)
+				{
+					secs += -d_e;
+				}
+				else
+				{
+					secs += d_s-d_e;
+				}
+			}
+		});
+	}
+
+	/* Compute todays' remaining time */
+	return [days, secs];
 }
 
 function updateTimer(){
@@ -115,14 +180,14 @@ function updateTimer(){
 	}
 
 
-	crem_days = "179"
-	crem_hours = "07"
-	crem_minutes = "49"
-
-	utcTarget = Date.UTC(2020, 08, 30, 17, 00, 00, 00);
-	//utcTarget = Date.UTC(2020, 01, 11, 18, 00, 00, 00);
+	utcTarget = new Date(2020, 08, 30, 17, 00, 00, 00);
+	//utcTarget = new Date(2020, 01, 25, 17, 00, 00, 00);
 	date = new Date();
-	var utcNow = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+
+
+	//var utcNow = new Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+	var utcNow = new Date();
+	//utcNow = new Date(2020, 01, 26, 08, 01, 00, 00);
 
 	diffMs = utcTarget - utcNow;
 	crem_days = genTimerStrings(Math.floor(diffMs/86400/1000), 3);
@@ -136,12 +201,16 @@ function updateTimer(){
 	document.getElementById("calm").innerHTML = colon+crem_minutes;
 	document.getElementById("cals").innerHTML = colon+crem_seconds;
 
-	workdays = computeWorkDays(utcNow, utcTarget);
+	worktime = computeWorkTime(utcNow, utcTarget);
+	workdays = worktime[0];
+	worksecs = worktime[1];
+
 	wrem_weeks = genTimerStrings(Math.floor(workdays/5),2);
 	wrem_days = genTimerStrings(workdays % 5,1);
-	wrem_hours = "08"
-	wrem_minutes = "00";
-	wrem_seconds = "00";
+
+	wrem_hours = genTimerStrings(Math.floor(worksecs/3600), 2);
+	wrem_minutes = genTimerStrings(Math.floor(worksecs/60) % 60, 2);
+	wrem_seconds = genTimerStrings(Math.floor(worksecs%60), 2);
 
 	document.getElementById("wrkw").innerHTML = wrem_weeks;
 	document.getElementById("wrkd").innerHTML = colon+wrem_days;
