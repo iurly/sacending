@@ -116,7 +116,7 @@ function computeWorkTime(d1, d2) {
 
 		var h1 = d.getHours();
 		var m1 = d.getMinutes();
-		var s1 = d.getSeconds()
+		var s1 = d.getSeconds();
 
 		return (h1 - h2) * 60 * 60 + (m1 - m2) * 60 + s1;
 	}
@@ -137,7 +137,7 @@ function computeWorkTime(d1, d2) {
 				/* now is after start */
 				if (d_s > 0)
 				{
-					secs += -d_e;
+					secs += -d_e-1;
 				}
 				else
 				{
