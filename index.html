@@ -43,7 +43,7 @@ function computeWorkTime(d1, d2) {
 		return d.getDay() == SATURDAY || d.getDay() == SUNDAY;
 	}
 
-	var holidays=["2020-04-13","2020-05-01","2020-06-02",["2020-08-10", "2020-08-21"]];
+	var holidays=["2020-01-01","2020-04-13","2020-05-01","2020-06-02",["2020-08-10", "2020-08-21"]];
 
 	const worktimes=[[[08,00],[12,00]],[[13,00],[17,00]]];
 
@@ -88,9 +88,10 @@ function computeWorkTime(d1, d2) {
 		//console.log(d);
 		//console.log(h[0]);
 		//console.log(""+d-h[0]);
-		if (h.length >0 && isSameDay(d,h[0])) {
+		//if (h.length>0 && isSameDay(d,h[0])) {
+		if (h.find(isSameDay.bind(null,d))) {
 			//console.log("skipping "+h[0]);
-			h.shift();
+			/* skip holidays */
 		} else if (isWeekend(d)) {
 			/* skip weekend days */
 		} else {
