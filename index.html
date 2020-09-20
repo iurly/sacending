@@ -99,9 +99,6 @@ function computeWorkTime(d1, d2) {
 			{
 				d1_working = true;
 			}
-			/* break at the end */
-			if (d - d2 == 0)
-				break;
 			days++;
 		}
 		cycles++;
@@ -126,6 +123,7 @@ function computeWorkTime(d1, d2) {
 	/* compute remaining working time today */
 	if (d1_working)
 	{
+		days--;
 		worktimes.forEach(function sumTime(item,index) {
 			var time_s = item[0];
 			var time_e = item[1];
