@@ -186,36 +186,39 @@ function updateTimer(){
 
 	//var utcNow = new Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
 	var utcNow = new Date();
-	//utcNow = new Date(2020, 01, 26, 08, 01, 00, 00);
+	//utcNow = new Date(2020, 08, 30, 17, 00, 00, 01);
 
 	diffMs = utcTarget - utcNow;
-	crem_days = genTimerStrings(Math.floor(diffMs/86400/1000), 3);
-	crem_hours = genTimerStrings(Math.floor(diffMs/3600/1000) % 24, 2);
-	crem_minutes = genTimerStrings(Math.floor(diffMs/60/1000) % 60, 2);
-	crem_seconds = genTimerStrings(Math.floor(diffMs/1000) % 60, 2);
+	if (diffMs >= 0)
+	{
+		crem_days = genTimerStrings(Math.floor(diffMs/86400/1000), 3);
+		crem_hours = genTimerStrings(Math.floor(diffMs/3600/1000) % 24, 2);
+		crem_minutes = genTimerStrings(Math.floor(diffMs/60/1000) % 60, 2);
+		crem_seconds = genTimerStrings(Math.floor(diffMs/1000) % 60, 2);
 
-	//document.getElementById("DSEGClock").innerHTML = tm_hour + colon + tm_min + "<span style=\"font-size:30px;\">"  + tm_sec + "</span>";
-	document.getElementById("cald").innerHTML = crem_days;
-	document.getElementById("calh").innerHTML = colon+crem_hours;
-	document.getElementById("calm").innerHTML = colon+crem_minutes;
-	document.getElementById("cals").innerHTML = colon+crem_seconds;
+		//document.getElementById("DSEGClock").innerHTML = tm_hour + colon + tm_min + "<span style=\"font-size:30px;\">"  + tm_sec + "</span>";
+		document.getElementById("cald").innerHTML = crem_days;
+		document.getElementById("calh").innerHTML = colon+crem_hours;
+		document.getElementById("calm").innerHTML = colon+crem_minutes;
+		document.getElementById("cals").innerHTML = colon+crem_seconds;
 
-	worktime = computeWorkTime(utcNow, utcTarget);
-	workdays = worktime[0];
-	worksecs = worktime[1];
+		worktime = computeWorkTime(utcNow, utcTarget);
+		workdays = worktime[0];
+		worksecs = worktime[1];
 
-	wrem_weeks = genTimerStrings(Math.floor(workdays/5),2);
-	wrem_days = genTimerStrings(workdays % 5,1);
+		wrem_weeks = genTimerStrings(Math.floor(workdays/5),2);
+		wrem_days = genTimerStrings(workdays % 5,1);
 
-	wrem_hours = genTimerStrings(Math.floor(worksecs/3600), 2);
-	wrem_minutes = genTimerStrings(Math.floor(worksecs/60) % 60, 2);
-	wrem_seconds = genTimerStrings(Math.floor(worksecs%60), 2);
+		wrem_hours = genTimerStrings(Math.floor(worksecs/3600), 2);
+		wrem_minutes = genTimerStrings(Math.floor(worksecs/60) % 60, 2);
+		wrem_seconds = genTimerStrings(Math.floor(worksecs%60), 2);
 
-	document.getElementById("wrkw").innerHTML = wrem_weeks;
-	document.getElementById("wrkd").innerHTML = colon+wrem_days;
-	document.getElementById("wrkh").innerHTML = colon+wrem_hours;
-	document.getElementById("wrkm").innerHTML = colon+wrem_minutes;
-	document.getElementById("wrks").innerHTML = colon+wrem_seconds;
+		document.getElementById("wrkw").innerHTML = wrem_weeks;
+		document.getElementById("wrkd").innerHTML = colon+wrem_days;
+		document.getElementById("wrkh").innerHTML = colon+wrem_hours;
+		document.getElementById("wrkm").innerHTML = colon+wrem_minutes;
+		document.getElementById("wrks").innerHTML = colon+wrem_seconds;
+	}
 
 	setTimeout("updateTimer()", 500 - date.getMilliseconds()%500 );
 
